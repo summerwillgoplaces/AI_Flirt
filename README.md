@@ -13,10 +13,23 @@ from a single codebase (Expo / React Native + TypeScript). The twist: the AI per
 
 | Tab | What it does |
 | --- | --- |
-| 💬 **Kai** | Chat directly with your Filipino flirt companion. Practice, banter, or just get your daily dose of kilig. |
+| 💬 **Chat** | Text directly with your chosen flirt coach. Practice, banter, or just get your daily dose of kilig. |
 | 🪽 **Wingman** | Paste what your crush texted you → get **3 ready-to-send Taglish replies** to choose from. |
+| 🎭 **Roleplay** | **Rehearse real situations** — the opening line, left-on-seen, asking her out, the *tita test*, LDR lambing, making up. Your coach plays the scene and drops tips. |
 | 💘 **Hugot** | Endless generator of Filipino **pick-up lines** and **hugot** lines. Tap for more. |
-| ⚙️ **Settings** | Set the **Rizz Meter** and (optionally) your Claude API key. |
+| ⚙️ **Settings** | Pick your **personality**, set the **Rizz Meter**, and (optionally) add your Claude API key. |
+
+### 🎭 Personalities — pick your flirt coach
+Seven distinct coaches, each varying across **age**, **aggressiveness** (1–5), and **attitude** — every one built to make *you* more magnetic:
+- 💗 **Kai** — the warm, witty all-rounder (the OG)
+- 🧸 **Biboy** — shy softie, kilig sa simple
+- 😜 **Kokoy** — funny Gen-Z softboi, banter king
+- 🤵 **Raf** — smooth gentleman, tita-approved
+- 💼 **Tinay** — witty achiever, green flag with a punchline
+- 🎸 **Lakan** — poetic harana romantic
+- 🔥 **Andrea** — bold, confident charmer
+
+The chosen personality shapes **every** feature — Chat, Wingman, and Roleplay.
 
 ### 🎚️ The Rizz Meter
 Dial the flirt intensity — every reply adapts to it:
@@ -67,12 +80,15 @@ npx eas build -p android    # Google Play
 ```
 App.tsx                    # root: tab navigation + shared state
 src/
-├─ persona/kai.ts          # 💗 Kai's personality, rizz levels & Taglish banks
-├─ ai/client.ts            # Claude calls + offline fallback
-├─ storage.ts              # on-device settings (API key, rizz)
+├─ persona/
+│  ├─ kai.ts               # 💗 persona-driven prompts, rizz levels & Taglish banks
+│  ├─ personalities.ts     # 🎭 the 7-coach roster (age / aggressiveness / attitude)
+│  └─ scenarios.ts         # 🎬 role-play practice scenarios
+├─ ai/client.ts            # Claude calls (chat / wingman / roleplay) + offline fallback
+├─ storage.ts              # on-device settings (API key, rizz, persona)
 ├─ theme.ts                # "gabi-ng-harana" color palette
-├─ components/             # Bubble, RizzPicker, TabBar
-└─ screens/                # Chat, Wingman, Hugot, Settings
+├─ components/             # Bubble, RizzPicker, PersonaPicker, TabBar
+└─ screens/                # Chat, Wingman, Roleplay, Hugot, Settings
 ```
 
 ---

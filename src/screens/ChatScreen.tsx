@@ -15,7 +15,15 @@ import { chatWithKai, type ChatTurn } from '../ai/client';
 import { GREETINGS, pick, type RizzLevel } from '../persona/kai';
 import { theme } from '../theme';
 
-export function ChatScreen({ apiKey, rizz }: { apiKey: string; rizz: RizzLevel }) {
+export function ChatScreen({
+  apiKey,
+  rizz,
+  personaId,
+}: {
+  apiKey: string;
+  rizz: RizzLevel;
+  personaId: string;
+}) {
   const [turns, setTurns] = useState<ChatTurn[]>([
     { role: 'assistant', content: pick(GREETINGS) },
   ]);
@@ -35,7 +43,7 @@ export function ChatScreen({ apiKey, rizz }: { apiKey: string; rizz: RizzLevel }
     setTurns(next);
     setInput('');
     setBusy(true);
-    const { text: reply } = await chatWithKai(apiKey, rizz, next.slice(-12));
+    const { text: reply } = await chatWithKai(apiKey, rizz, personaId, next.slice(-12));
     setTurns((prev) => [...prev, { role: 'assistant', content: reply }]);
     setBusy(false);
   }

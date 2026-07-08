@@ -12,7 +12,15 @@ import { suggestReplies } from '../ai/client';
 import type { RizzLevel } from '../persona/kai';
 import { theme } from '../theme';
 
-export function WingmanScreen({ apiKey, rizz }: { apiKey: string; rizz: RizzLevel }) {
+export function WingmanScreen({
+  apiKey,
+  rizz,
+  personaId,
+}: {
+  apiKey: string;
+  rizz: RizzLevel;
+  personaId: string;
+}) {
   const [theirMsg, setTheirMsg] = useState('');
   const [replies, setReplies] = useState<string[]>([]);
   const [busy, setBusy] = useState(false);
@@ -23,7 +31,7 @@ export function WingmanScreen({ apiKey, rizz }: { apiKey: string; rizz: RizzLeve
     if (!msg || busy) return;
     setBusy(true);
     setReplies([]);
-    const { replies: r } = await suggestReplies(apiKey, rizz, msg);
+    const { replies: r } = await suggestReplies(apiKey, rizz, personaId, msg);
     setReplies(r);
     setBusy(false);
   }

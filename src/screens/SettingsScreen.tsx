@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Linking, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { RizzPicker } from '../components/RizzPicker';
+import { PersonaPicker } from '../components/PersonaPicker';
 import { setApiKey as persistKey } from '../storage';
 import type { RizzLevel } from '../persona/kai';
 import { theme } from '../theme';
@@ -8,13 +9,17 @@ import { theme } from '../theme';
 export function SettingsScreen({
   apiKey,
   rizz,
+  personaId,
   onApiKey,
   onRizz,
+  onPersona,
 }: {
   apiKey: string;
   rizz: RizzLevel;
+  personaId: string;
   onApiKey: (k: string) => void;
   onRizz: (r: RizzLevel) => void;
+  onPersona: (id: string) => void;
 }) {
   const [draft, setDraft] = useState(apiKey);
   const [saved, setSaved] = useState(false);
@@ -29,6 +34,10 @@ export function SettingsScreen({
   return (
     <ScrollView contentContainerStyle={styles.body}>
       <Text style={styles.h1}>Settings</Text>
+
+      <View style={styles.section}>
+        <PersonaPicker value={personaId} onChange={onPersona} />
+      </View>
 
       <View style={styles.section}>
         <RizzPicker value={rizz} onChange={onRizz} />
