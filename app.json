@@ -17,6 +17,7 @@
     },
     "android": {
       "package": "com.aiflirt.kai",
+      "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#1B1130"
       }

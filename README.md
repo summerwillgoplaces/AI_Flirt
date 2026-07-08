@@ -71,12 +71,16 @@ Then:
 
 > Requires Node 18+. No native build needed to try it — Expo Go handles both platforms.
 
-### 📦 Ship to the stores
-This is a standard Expo app, so a production build is:
+### 📦 Permanent install (no computer needed after)
+Want a real standalone app on your phone instead of the Expo Go preview? Build an
+installable **Android APK** in Expo's cloud — full step-by-step in **[BUILD.md](BUILD.md)**:
 ```bash
-npx eas build -p ios        # App Store
-npx eas build -p android    # Google Play
+npm install -g eas-cli
+eas login && eas init
+eas build --platform android --profile preview   # → download the .apk, tap to install
 ```
+The `preview` profile (see `eas.json`) outputs a sideloadable APK. iOS standalone builds
+need a paid Apple Developer account — see BUILD.md.
 
 ---
 
