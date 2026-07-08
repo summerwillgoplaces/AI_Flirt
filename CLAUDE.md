@@ -29,6 +29,46 @@ re-derives context I already hold. The team is for *work*, not chatter.
 > If the owner ever wants the team assembled on **literally every** message with no
 > exceptions, they can say so and I'll drop the trivial-chatter carve-out.
 
+## 🧰 Equip the team — tools, skills & "superpowers"
+
+Before delegating, make sure every agent is fully loaded — no crew member goes in
+under-equipped:
+
+- **Pick capable agent types.** Prefer agents with full tool access (`claude`,
+  `general-purpose` → `Tools: *`) for build/implement work; use **Explore** for
+  broad read-only sweeps and **Plan** for design. Match the agent to the job.
+- **Hand them their tools.** Each agent's toolset comes from its definition. When a
+  task needs a capability an agent lacks, choose an agent type that has it, or note
+  the gap — never send an agent into work it can't tool its way through.
+- **Point them at the right skills.** In the brief, name the skills/superpowers the
+  task calls for (e.g. `claude-api` for AI wiring, `verify`/`run` to prove a change,
+  `code-review` for quality, `dataviz`/`artifact-design` for visuals) so they load
+  and use them instead of guessing.
+- **Brief them richly.** Give each agent the context, goal, constraints, and the
+  exact deliverable up front — a well-specified brief is the real superpower. Cold
+  agents re-derive context, so front-load what they need.
+- **Pre-flight check.** Before firing the team, confirm each agent has: the right
+  tools, the relevant skills named, repo/context access, and a clear success bar.
+  If something's missing, fix it first.
+
+## 📋 Subagent Scorecard — required every run
+
+**Every time I use the team, end the run with a subagent scorecard** so the owner can
+review who did what and how well. No team run ships without one.
+
+Scorecard must include, per agent:
+
+| Field | What it captures |
+|---|---|
+| **Agent** | type + one-line role on this run |
+| **Tools/Skills used** | what it actually reached for |
+| **Contribution** | what it delivered |
+| **Grade** | A–F, honest — call out weak or wasted spawns |
+| **Notes** | what worked, what to fix next time |
+
+Plus an **overall team grade** and a one-line verdict. Keep grades truthful — a
+spawn that added nothing gets a low mark; don't inflate.
+
 ## About this repo — AI Flirt / "Kai"
 
 A cross-platform (iOS + Android) flirt AI texting assistant built with **Expo /
