@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "name": "AI Flirt — Kai",
+    "slug": "ai-flirt",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "scheme": "aiflirt",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#1B1130"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.aiflirt.kai"
+    },
+    "android": {
+      "package": "com.aiflirt.kai",
+      "adaptiveIcon": {
+        "backgroundColor": "#1B1130"
+      }
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}
