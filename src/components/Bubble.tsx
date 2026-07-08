@@ -1,14 +1,31 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { theme } from '../theme';
 
-export function Bubble({ from, text }: { from: 'me' | 'kai'; text: string }) {
+export function Bubble({
+  from,
+  text,
+  onPress,
+}: {
+  from: 'me' | 'kai';
+  text: string;
+  onPress?: () => void;
+}) {
   const mine = from === 'me';
+  const inner = (
+    <View style={[styles.bubble, mine ? styles.me : styles.kai]}>
+      <Text style={[styles.text, mine ? styles.meText : styles.kaiText]}>{text}</Text>
+    </View>
+  );
   return (
     <View style={[styles.row, mine ? styles.rowMe : styles.rowKai]}>
-      <View style={[styles.bubble, mine ? styles.me : styles.kai]}>
-        <Text style={[styles.text, mine ? styles.meText : styles.kaiText]}>{text}</Text>
-      </View>
+      {onPress ? (
+        <Pressable onPress={onPress} onLongPress={onPress}>
+          {inner}
+        </Pressable>
+      ) : (
+        inner
+      )}
     </View>
   );
 }

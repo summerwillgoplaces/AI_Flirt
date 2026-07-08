@@ -48,7 +48,12 @@ crush, langga*), drop *hugot*, and keep everything wholesome and consent-friendl
 
 **No API key? No problem.** The app ships with a rich built-in Taglish phrase engine,
 so every feature works offline in "charm mode" — great for trying it out instantly.
-Add a key in Settings to unlock smart, context-aware replies.
+Even offline, each personality uses its **own flavored lines**, so Andrea still sounds
+bold and Biboy still sounds shy. Add a key in Settings to unlock smart, context-aware
+replies.
+
+**Tap to copy.** In Wingman, tap a suggested reply to copy it to your clipboard — ready
+to paste into your real chat. In Roleplay, tap any coach line to steal it.
 
 ---
 

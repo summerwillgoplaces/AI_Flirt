@@ -8,6 +8,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import * as Clipboard from 'expo-clipboard';
 import { suggestReplies } from '../ai/client';
 import type { RizzLevel } from '../persona/kai';
 import { theme } from '../theme';
@@ -36,10 +37,11 @@ export function WingmanScreen({
     setBusy(false);
   }
 
-  // No clipboard dep — "copy" just flags it as selected for the demo.
-  function markCopied(i: number) {
+  // Copy the chosen reply to the clipboard so it's ready to paste in a real chat.
+  async function copyReply(i: number) {
+    await Clipboard.setStringAsync(replies[i]);
     setCopied(i);
-    setTimeout(() => setCopied((c) => (c === i ? null : c)), 1400);
+    setTimeout(() => setCopied((c) => (c === i ? null : c)), 1600);
   }
 
   return (
@@ -67,10 +69,10 @@ export function WingmanScreen({
       </Pressable>
 
       {replies.map((r, i) => (
-        <Pressable key={i} style={styles.reply} onPress={() => markCopied(i)}>
+        <Pressable key={i} style={styles.reply} onPress={() => copyReply(i)}>
           <Text style={styles.replyLabel}>Option {i + 1}</Text>
           <Text style={styles.replyText}>{r}</Text>
-          <Text style={styles.tapHint}>{copied === i ? '✓ Ready to send!' : 'Tap to pick'}</Text>
+          <Text style={styles.tapHint}>{copied === i ? '✓ Copied! I-paste mo na 💌' : 'Tap to copy'}</Text>
         </Pressable>
       ))}
     </ScrollView>

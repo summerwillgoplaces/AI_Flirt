@@ -11,6 +11,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import * as Clipboard from 'expo-clipboard';
 import { Bubble } from '../components/Bubble';
 import { roleplayWithKai, type ChatTurn } from '../ai/client';
 import { SCENARIOS, type Scenario } from '../persona/scenarios';
@@ -94,7 +95,14 @@ function RoleplayChat({
   ]);
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
+  const [copied, setCopied] = useState(false);
   const listRef = useRef<FlatList<ChatTurn>>(null);
+
+  async function copyLine(text: string) {
+    await Clipboard.setStringAsync(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1600);
+  }
 
   useEffect(() => {
     const t = setTimeout(() => listRef.current?.scrollToEnd({ animated: true }), 80);
@@ -131,10 +139,15 @@ function RoleplayChat({
         data={turns}
         keyExtractor={(_, i) => String(i)}
         renderItem={({ item }) => (
-          <Bubble from={item.role === 'user' ? 'me' : 'kai'} text={item.content} />
+          <Bubble
+            from={item.role === 'user' ? 'me' : 'kai'}
+            text={item.content}
+            onPress={item.role === 'assistant' ? () => copyLine(item.content) : undefined}
+          />
         )}
         contentContainerStyle={styles.list}
       />
+      {copied && <Text style={styles.copied}>✓ Copied! Tap any coach line to steal it. 💌</Text>}
       {busy && <Text style={styles.typing}>{p.name} is acting… 🎭</Text>}
       <View style={styles.inputRow}>
         <TextInput
@@ -185,6 +198,7 @@ const styles = StyleSheet.create({
   bannerTitle: { color: theme.textDim, fontSize: 13, flex: 1 },
   list: { paddingVertical: 12 },
   typing: { color: theme.textFaint, fontSize: 12, paddingHorizontal: 18, paddingBottom: 4, fontStyle: 'italic' },
+  copied: { color: theme.kilig, fontSize: 12, paddingHorizontal: 18, paddingBottom: 4, fontWeight: '600' },
   inputRow: { flexDirection: 'row', alignItems: 'flex-end', padding: 10, gap: 8, backgroundColor: theme.bgElevated },
   input: {
     flex: 1,

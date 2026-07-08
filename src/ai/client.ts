@@ -8,6 +8,7 @@ import {
   type RizzLevel,
 } from '../persona/kai';
 import type { Scenario } from '../persona/scenarios';
+import { offlineLinesFor } from '../persona/personalities';
 
 // We always default to the latest, most capable model for the best flirt game.
 const MODEL = 'claude-opus-4-8';
@@ -36,6 +37,13 @@ function toApiMessages(history: ChatTurn[]): { role: 'user' | 'assistant'; conte
   return trimmed.map((t) => ({ role: t.role, content: t.content }));
 }
 
+// One offline reply, flavored to the active persona (falls back to the rizz bank
+// if the persona has no offline lines).
+function offlineLine(personaId: string, rizz: RizzLevel): string {
+  const lines = offlineLinesFor(personaId);
+  return pick(lines.length ? lines : REPLY_BANK[rizz]);
+}
+
 /** Chat with the active persona. Falls back to offline Taglish if no key / error. */
 export async function chatWithKai(
   apiKey: string,
@@ -44,7 +52,7 @@ export async function chatWithKai(
   history: ChatTurn[],
 ): Promise<{ text: string; offline: boolean }> {
   if (!apiKey) {
-    return { text: pick(REPLY_BANK[rizz]), offline: true };
+    return { text: offlineLine(personaId, rizz), offline: true };
   }
   try {
     const client = makeClient(apiKey);
@@ -55,10 +63,10 @@ export async function chatWithKai(
       messages: toApiMessages(history),
     });
     const text = firstText(response);
-    return { text: text || pick(REPLY_BANK[rizz]), offline: false };
+    return { text: text || offlineLine(personaId, rizz), offline: false };
   } catch (err) {
     console.warn('chatWithKai fell back to offline:', err);
-    return { text: pick(REPLY_BANK[rizz]), offline: true };
+    return { text: offlineLine(personaId, rizz), offline: true };
   }
 }
 
@@ -70,7 +78,7 @@ export async function suggestReplies(
   theirMessage: string,
 ): Promise<{ replies: string[]; offline: boolean }> {
   if (!apiKey) {
-    return { replies: offlineReplies(rizz), offline: true };
+    return { replies: offlineReplies(rizz, personaId), offline: true };
   }
   try {
     const client = makeClient(apiKey);
@@ -88,10 +96,10 @@ export async function suggestReplies(
     const parsed = parseReplyArray(firstText(response));
     return parsed.length
       ? { replies: parsed.slice(0, 3), offline: false }
-      : { replies: offlineReplies(rizz), offline: true };
+      : { replies: offlineReplies(rizz, personaId), offline: true };
   } catch (err) {
     console.warn('suggestReplies fell back to offline:', err);
-    return { replies: offlineReplies(rizz), offline: true };
+    return { replies: offlineReplies(rizz, personaId), offline: true };
   }
 }
 
@@ -104,7 +112,7 @@ export async function roleplayWithKai(
   history: ChatTurn[],
 ): Promise<{ text: string; offline: boolean }> {
   if (!apiKey) {
-    return { text: pick(REPLY_BANK[rizz]), offline: true };
+    return { text: offlineLine(personaId, rizz), offline: true };
   }
   try {
     const client = makeClient(apiKey);
@@ -115,18 +123,22 @@ export async function roleplayWithKai(
       messages: toApiMessages(history),
     });
     const text = firstText(response);
-    return { text: text || pick(REPLY_BANK[rizz]), offline: false };
+    return { text: text || offlineLine(personaId, rizz), offline: false };
   } catch (err) {
     console.warn('roleplayWithKai fell back to offline:', err);
-    return { text: pick(REPLY_BANK[rizz]), offline: true };
+    return { text: offlineLine(personaId, rizz), offline: true };
   }
 }
 
-function offlineReplies(rizz: RizzLevel): string[] {
-  const bank = [...REPLY_BANK[rizz]];
+// Three distinct offline replies, persona lines first then the rizz bank to top up.
+function offlineReplies(rizz: RizzLevel, personaId: string): string[] {
+  const seen = new Set<string>();
+  const pool = [...offlineLinesFor(personaId), ...REPLY_BANK[rizz]].filter((l) =>
+    seen.has(l) ? false : seen.add(l),
+  );
   const out: string[] = [];
-  while (out.length < 3 && bank.length) {
-    out.push(bank.splice(Math.floor(Math.random() * bank.length), 1)[0]);
+  while (out.length < 3 && pool.length) {
+    out.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]);
   }
   return out;
 }
