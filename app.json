@@ -10,7 +10,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#1B1130"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.aiflirt.kai"
@@ -24,6 +26,12 @@
     },
     "web": {
       "bundler": "metro"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "06891265-8b24-4b2a-bc8f-2398f5fc5b30"
+      }
+    },
+    "owner": "summerwillgoplaces"
   }
 }
