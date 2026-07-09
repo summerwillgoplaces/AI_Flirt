@@ -5,6 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "start": "expo start --go --tunnel",
+    "trial": "expo start --go --tunnel",
     "android": "expo start --android --go --tunnel",
     "ios": "expo start --ios --go --tunnel",
     "web": "expo start --web",

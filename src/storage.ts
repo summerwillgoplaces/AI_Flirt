@@ -7,6 +7,7 @@ import { DEFAULT_PERSONA_ID } from './persona/personalities';
 const KEY_API = 'aiflirt.apiKey';
 const KEY_RIZZ = 'aiflirt.rizz';
 const KEY_PERSONA = 'aiflirt.persona';
+const KEY_ONBOARDED = 'aiflirt.onboarded';
 
 export async function getApiKey(): Promise<string> {
   return (await AsyncStorage.getItem(KEY_API)) ?? '';
@@ -31,4 +32,12 @@ export async function getPersonaId(): Promise<string> {
 
 export async function setPersonaId(value: string): Promise<void> {
   await AsyncStorage.setItem(KEY_PERSONA, value);
+}
+
+export async function getOnboarded(): Promise<boolean> {
+  return (await AsyncStorage.getItem(KEY_ONBOARDED)) === '1';
+}
+
+export async function setOnboarded(): Promise<void> {
+  await AsyncStorage.setItem(KEY_ONBOARDED, '1');
 }

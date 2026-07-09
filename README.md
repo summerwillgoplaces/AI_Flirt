@@ -61,15 +61,20 @@ to paste into your real chat. In Roleplay, tap any coach line to steal it.
 
 ```bash
 npm install
-npm start          # opens Expo Dev Tools
+npm run trial      # = expo start --tunnel — scan the QR with Expo Go, any network
 ```
 
 Then:
 - **iPhone / Android** — install **Expo Go**, scan the QR code. Same code, both ecosystems. 📱
+- `npm start` — LAN mode (faster if phone + computer share Wi-Fi)
 - `npm run ios` / `npm run android` — open in a simulator/emulator
 - `npm run web` — quick preview in the browser
 
 > Requires Node 18+. No native build needed to try it — Expo Go handles both platforms.
+> First launch shows a friendly welcome and works **offline with zero setup**.
+
+**👉 Just want to try it? See [TRIAL.md](TRIAL.md)** for the easiest paths (incl. a
+tap-to-install Android APK for testers).
 
 ### 📦 Permanent install (no computer needed after)
 Want a real standalone app on your phone instead of the Expo Go preview? Build an

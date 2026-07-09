@@ -9,12 +9,15 @@ import { WingmanScreen } from './src/screens/WingmanScreen';
 import { RoleplayScreen } from './src/screens/RoleplayScreen';
 import { PickupScreen } from './src/screens/PickupScreen';
 import { SettingsScreen } from './src/screens/SettingsScreen';
+import { OnboardingScreen } from './src/screens/OnboardingScreen';
 import {
   getApiKey,
   getRizz,
   setRizz as persistRizz,
   getPersonaId,
   setPersonaId as persistPersona,
+  getOnboarded,
+  setOnboarded as persistOnboarded,
 } from './src/storage';
 import { RIZZ, type RizzLevel } from './src/persona/kai';
 import { personaById, DEFAULT_PERSONA_ID } from './src/persona/personalities';
@@ -34,15 +37,22 @@ export default function App() {
   const [apiKey, setApiKey] = useState('');
   const [rizz, setRizzState] = useState<RizzLevel>('smooth');
   const [personaId, setPersonaState] = useState<string>(DEFAULT_PERSONA_ID);
+  const [onboarded, setOnboardedState] = useState(true);
 
   useEffect(() => {
     (async () => {
       setApiKey(await getApiKey());
       setRizzState(await getRizz());
       setPersonaState(await getPersonaId());
+      setOnboardedState(await getOnboarded());
       setReady(true);
     })();
   }, []);
+
+  function finishOnboarding() {
+    setOnboardedState(true);
+    void persistOnboarded();
+  }
 
   function changeRizz(r: RizzLevel) {
     setRizzState(r);
@@ -59,6 +69,17 @@ export default function App() {
       <View style={[styles.fill, styles.center]}>
         <ActivityIndicator color={theme.accent} size="large" />
       </View>
+    );
+  }
+
+  if (!onboarded) {
+    return (
+      <SafeAreaProvider>
+        <SafeAreaView style={styles.fill} edges={['top', 'bottom']}>
+          <StatusBar style="light" />
+          <OnboardingScreen onDone={finishOnboarding} />
+        </SafeAreaView>
+      </SafeAreaProvider>
     );
   }
 
